@@ -1,0 +1,27 @@
+Tuning and scan type of Nikto :-
+
+1) nikto -h 192.168.0.106/dvwa/ -T 4 
+Details: -T controls which tests Nikto runs. The tuning levels are:
+
+0: File Upload
+
+1: Interesting File / Seen in logs
+
+2: Misconfiguration / Default File
+
+3: Information Disclosure
+
+4: Injection (XSS/Script/HTML)
+
+5: Remote File Retrieval
+
+6: Denial of Service
+
+7: Remote Shell / Command Execution
+
+x: Reverse Tuning (e.g., -T x45 runs all checks except Injection and Remote File Retrieval)
+
+This command (-T 4) specifically looks for injection vulnerabilities.
+
+2) nikto -update 
+Details :- This is crucila before the running the scanning and we need to update the nikto database 

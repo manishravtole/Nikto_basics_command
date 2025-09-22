@@ -1,0 +1,18 @@
+Nikto :-
+
+what is the use of the nikto ?
+Nikto is a free, open-source web server scanner that performs comprehensive tests against web servers for multiple items. Think of it as an automated reconnaissance and vulnerability scanner for web servers.
+
+Basic command's of Nikto :-
+
+1) nikto -h 192.168.0.101
+-> In this command -h identify the Host
+
+2) nikto -h 192.168.0.108 -p 80 
+-> In this command nikto scan the target on port 80 
+
+3) nikto -h 192.168.0.108/Dvwa/
+-> In this command nikto start it's scan specifically within the /dvwa/ directory and it's focused than scanning the entire server root 
+
+4) nikto -h 192.168.0.106 -ssl 
+-> In this command if the server were running on HTTPS , this command tells nikto to performs the scan over the SSL/TLS connection.

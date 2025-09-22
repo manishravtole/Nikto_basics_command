@@ -1,0 +1,13 @@
+- How can we save the Output of the nikto in file ?
+
+1) nikto -h 192.168.0.106/dvwa/ -o dvwa_scan.txt
+-> In this command first nikto scan the website and save all the output in dvwa.txt file 
+
+2) nikto -h 192.168.0.106/dvwa/ -o dvwa_scan.html -F html 
+-> In this command Nikto save the output in the html file , -F specifies the format 
+
+3) nikto -h 192.168.0.106/dvwa/ -o dvwa_scan.csv -F csv 
+-> In this command Nikto save the output in the CSV(comma separated values). CSV is useful for importing the result into a spreadsheet or another program for analysis 
+
+4) nikto -h 192.168.0.106 -n 
+-> In this command -n option for (no-interactive) reduce the some of the interactive output 

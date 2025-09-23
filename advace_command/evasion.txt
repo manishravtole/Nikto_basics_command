@@ -1,0 +1,17 @@
+1) nikto -h 192.168.0.106 -useproxy http://127.0.0.1:8080  
+Details: This command routes all of Nikto's traffic through a proxy, like Burp Suite or ZAP, running on your local machine. This is extremely useful for seeing exactly what requests Nikto is sending.
+
+2) nikto -h 192.168.0.106 -useragent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
+Details : spoofing the user-agent , some security systems might block nikto's default user agent 
+
+3) nikto -h 192.168.0.106/dvwa/ -id admin:password
+Details : scanning with the basic authetication so security system might be not block the nikto
+
+4) nikto -h 192.168.0.106/dvwa/ -id "security=low;PHPSESSID=Your-session-id-or-cookie"
+Details : scanning with the valid session_id or cookie so nikto can scan the easily 
+
+5) nikto -h 192.168.0.106/dvwa/ -timeout 5 
+Details : sets the time limit to the every requests. This can be useful if the server is low , to prevent the scan from stalling 
+
+5) nikto -h 192.168.0.106 -Display V 
+Details :  the -Display V is use for debugging ,it will show the verbose output , including the full request and response for the every test of the nikto 

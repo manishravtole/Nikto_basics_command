@@ -1,0 +1,30 @@
+1) nikto -h 192.168.0.106 -evasion 13458 
+Details : the -evasion flag is a powerful way to combine multiple anti-IDS technique 
+        1: Random URI encoding (e.g., changing / to /%2f).
+
+        3: Premature URL ending.
+
+        4: Prepend long random strings to requests.
+
+        5: Fake parameters.
+
+        8: Use Windows directory separators (\).
+
+        This command combines several of these to create confusing and non-standard requests that might bypass simple security filters.
+
+2) nikto -h 192.168.0.106 -evasion B -pause 5 
+Details : some system block IPs that sends the multiple request too quickly , so -pause tells to nikto that wait for 5 seconds between each test and -evasion B is specifically uses the GET request method to add a delay and making the scan slower and stealthief 
+
+3) nikto -h 192.168.0.106 -mutate 3 
+Details : The -mutate flag instructs Nikto to actively modify its tests to find variations of vulnerabilities. This command will:
+
+        1: Test for usernames in /etc/passwd.
+
+        2: Try to enumerate usernames via Apache's /~user format.
+
+        3: Brute force subdomains with a wordlist.
+
+        This is an aggressive way to expand the scope of the scan beyond the initial target.
+
+3) nikto -h 192.168.0.106 -p 8081 -Tuning 9 
+Details: If you find a web server on a non-standard port like 8081, Nikto might not recognize it as a web server and will exit. The -Tuning 9 option forces Nikto to treat any open port as a web server and perform a full scan, which is very useful for finding hidden admin panels.

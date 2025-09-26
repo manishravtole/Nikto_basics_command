@@ -1,0 +1,36 @@
+nikto -h 192.168.1.10       #Performs a basic scan on a target host using default settings (port 80).	The very first command to run for a quick, initial assessment of a web server to find low-hanging fruit.
+nikto -h 192.168.1.10 -p 80	        #Explicitly specifies the port to scan.	Useful for clarity in scripts or when scanning standard ports like 80 or 443.
+nikto -h 192.168.1.10/dvwa/	        #Scans a specific directory on the web server.	Focuses the scan on a particular web application, making it faster and more relevant than scanning the entire server root.
+nikto -h 192.168.1.10 -ssl	        #Performs the scan over an SSL/TLS (HTTPS) connection.	Essential for scanning any website that uses HTTPS. Often combined with -p 443.
+nikto -h 192.168.1.10 -p 80,443,8080	    #Scans multiple specified ports on a single target.	Quickly checks for web servers running on common standard and alternative ports.
+Targeting & Scoping		
+nikto -h hosts.txt	        #Scans a list of hosts provided in a text file.	Used for automated scanning of multiple targets discovered during the reconnaissance phase.
+nmap -p80 192.168.1.0/24 -oG - | nikto -h -	        #Pipes Nmap's output directly to Nikto.	A highly efficient workflow to discover live web servers on a network and immediately begin scanning them.
+nikto -h 192.168.1.10 -p 8443 -ssl -Tuning 9	        #Forces a full scan on a non-standard port that Nikto might not recognize.	When you find a web service on an unusual port (e.g., 8443) and need to ensure Nikto performs a complete web scan.
+nikto -h internal.corp.com -vhost 192.168.1.10	        #Scans a virtual host by sending the IP but using a specific Host header.	Crucial for testing multiple websites hosted on a single server, especially for finding internal sites not exposed via public DNS.
+nikto -h 192.168.1.10 -root /app1/	    #Prepends a directory to all test requests.	Simplifies scanning a web application that is not located at the server's root directory.
+Output & Reporting		
+nikto -h 192.168.1.10 -o report.txt	    #Saves the scan output to a plain text file.	The most basic way to save your findings for later analysis or documentation.
+nikto -h 192.168.1.10 -o report.html -F html	    #Saves the report in an easy-to-read HTML format.	Best for creating shareable reports for team members or clients.
+nikto -h 192.168.1.10 -o report.csv -F csv	     #Saves the report in CSV format.	Useful for importing results into spreadsheets (like Excel) or databases for filtering and analysis.
+nikto -h 192.168.1.10 -o scan -F htm txt xml	    #Saves the output in multiple formats at once.	Efficiently creates reports for different purposes (viewing, notes, tool integration) in a single scan.
+nikto -h 192.168.1.11 -o combined.txt -append	    #Appends the new scan results to an existing file.	When scanning multiple targets, this allows you to consolidate all findings into one master report.
+nikto -h 192.168.1.10 -Display V	    #Enables Verbose display, showing full requests and responses.	Used for debugging scans or deeply understanding how a specific vulnerability check works.
+Authentication & Session		
+nikto -h 192.168.1.10 -id admin:password	    #Uses HTTP Basic Authentication to scan protected areas.	For legacy systems or APIs that use the basic authentication scheme.
+nikto -h 192.168.1.10/dvwa/ -id "security=low; PHPSESSID=..."	    #Passes session cookies to scan as an authenticated user.	The standard method for scanning areas behind a web application's login form.
+nikto -h 192.168.1.10 -id "domain\user:pass" -ntlm	    #Uses NTLM authentication.	Specifically for testing Windows-based web applications common in corporate environments.
+nikto -h 192.168.1.10 -H "Authorization: Bearer <JWT>"	    #Adds a custom HTTP header to every request.	Essential for scanning modern APIs and applications that use token-based authentication (e.g., JWT).
+Evasion & Stealth		
+nikto -h 192.168.1.10 -evasion 1	    #Uses random URI encoding to obfuscate requests.	A simple method to try and bypass basic WAFs or IDS that look for exact string matches.
+nikto -h 192.168.1.10 -evasion 13458	    #Combines multiple IDS evasion techniques.	An aggressive evasion tactic to make scan traffic look varied and confusing to security devices.
+nikto -h 192.168.1.10 -Pause 5	    #Waits 5 seconds between each test request.	Used to avoid being blocked by rate-limiting defenses that trigger on rapid, repeated requests from a single IP.
+nikto -h 192.168.1.10 -useragent "Mozilla/5.0..."	    #Spoofs the User-Agent string to mimic a real browser.	A common technique to bypass simple filters that block requests from known security tool user agents.
+Tuning & Plugin Control		
+nikto -update	    #Updates Nikto's plugins and databases to the latest versions.	Crucial first step. Always run this before a test to ensure you are checking for the most recent vulnerabilities.
+nikto -list-plugins	Displays a list of all available scan plugins.	Used to identify specific tests you can run for a highly targeted and efficient scan.
+nikto -h 192.168.1.10 -T 4	    #Runs a specific tuning profile (4 for Injection).	Focuses the scan on a particular vulnerability class, saving time and reducing noise.
+nikto -h 192.168.1.10 -T x6	    #Reverse tuning; runs all tests except the specified one (6 for DoS).	Useful for running a comprehensive scan while avoiding potentially disruptive or dangerous tests like Denial of Service.
+nikto -h 192.168.1.10 -plugins "subdomain;dir_indexing"	    #Runs only the specified plugins.	For surgical precision. Use this when you only want to check for one or two specific issues based on prior intel.
+nikto -h 192.168.1.10 -plugins "-cookies"	    #Excludes a specific plugin from the scan.	Useful for reducing noise by disabling checks that you know are irrelevant or produce false positives on the target.
+nikto -h 192.168.1.10 -mutate 3	    #Performs mutation tests to find additional attack vectors.	An aggressive technique to discover non-obvious assets like subdomains by testing variations of known names.
